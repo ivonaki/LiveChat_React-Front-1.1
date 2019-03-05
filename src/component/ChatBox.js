@@ -16,13 +16,12 @@ const messageAddedSubscription = gql`
 `; 
 
 const messagesQuery = gql` 
-	query($chatroomId: String){
+	query messages($chatroomId: String!){
 	messages(chatroomId: $chatroomId) {
 		id
 		username
 		text
 		createdAt
-
 	}
 }
 `;
@@ -51,15 +50,15 @@ const MessageListView = class extends Component {
   }
 };
 
-const MessageList = () => (
-  <Query query={messagesQuery}>
+const MessageList = (chatroomId) => (
+  <Query query={messagesQuery} variables={{chatroomId: chatroomId.chatroomId}}>
     {({ loading, error, data, subscribeToMore }) => {
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error: {error.message}</p>;
       const more = () => subscribeToMore({
         document: messageAddedSubscription,
         variables: {
-          chatroomId: chatroomId,
+          chatroomId: chatroomId.chatroomId,
         },
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;

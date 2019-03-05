@@ -5,36 +5,34 @@ import SendingMessages from './SendingMessages';
 import './ChatContainerALL.css';
 import MessageList from './ChatBox';
 
-
-
 class ChatContainerALL extends Component {
 
 	constructor(props) {
 	    super(props);
 	    this.state = {
 	      toggle: true,
-	      chatRoom: "1"
+	      chatroomId: "1"
 	    }
 	  }
 
 	handleChatRoom = async (value) => {
 		this.setState({
-			chatRoom: value
+			chatroomId: value
 		})
-		console.log(this.state.chatRoom)
+		console.log(this.state.chatroomId)
 	}  
 
 	handleToggle = () => {
 		if(!this.state.toggle){
 			this.setState({
 				toggle: true
-			})}
+			})
+		}
 		else{
 			this.setState({
-				toggle: false,
-			
-		})
-	}
+				toggle: false,		
+			})
+		}
 	}
 
 
@@ -54,7 +52,7 @@ class ChatContainerALL extends Component {
   					</div>
   					<div className='columns'>
 	  					<div className="container1">
-	  						<MessageList/>
+	  						<MessageList chatroomId = {this.state.chatroomId}/>
 						</div>
 						<div className='container2'>
 							<SendingMessages/>

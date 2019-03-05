@@ -12,25 +12,23 @@ class SendingMessages extends Component {
 		super(props);
 		this.state = {
 			text: "",
-			chatroomId: "1"
 			//UserId:
 		}
 	}
 
 	sendingMessage = async (e) => {	
-		console.log(this.state.text)	
-			const getToken = JSON.parse(localStorage.getItem('jwt'))
+		const getToken = JSON.parse(localStorage.getItem('jwt'))
 
-			const token = getToken.data.login || getToken.data.register
+		const token = getToken.data.login || getToken.data.register
 
-			await this.props.mutate({
-				variables: {
-					text: this.state.text, 
-					chatroomId: this.state.chatroomId,
-					token: token
-					}
-			});
-			this.setState({ text: "" })  // erasing content
+		await this.props.mutate({
+			variables: {
+				text: this.state.text, 
+				chatroomId: this.props.chatroomId,
+				token: token
+				}
+		});
+		this.setState({ text: "" })
 	}
 
 	handleKeyPress = async (e) => {

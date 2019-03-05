@@ -21,7 +21,6 @@ const logoutMutation = gql`
 class Sidebar extends Component {
 	constructor(props) {
     super(props);
-
     this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false,
@@ -41,7 +40,7 @@ class Sidebar extends Component {
   	this.setState({ editProfile: true }, () => this.props.history.push('/EditProfile'))
   }
 
- handleLogout = async () => {
+	handleLogout = async () => {
 		var logout_token = await this.props.mutate( {
 			variables: {
 				logged_token: this.state.logged_token.data.register || this.state.logged_token.data.login
