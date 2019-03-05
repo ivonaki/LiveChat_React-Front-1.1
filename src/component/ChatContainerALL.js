@@ -6,6 +6,7 @@ import './ChatContainerALL.css';
 import MessageList from './ChatBox';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import {withRouter} from "react-router-dom";
 
 const validToken = gql`
   mutation validToken($token: String!) {
@@ -19,7 +20,6 @@ class ChatContainerALL extends Component {
 	    super(props);
 	    this.state = {
 				toggle: true,
-				redirect: true,
 				chatroomId: "1"
 			}
 	  }
@@ -44,11 +44,7 @@ class ChatContainerALL extends Component {
 		}
 	}
 
-  handleTriger = () => {
-    this.setState({ redirect: true }, () => this.props.history.push('/ChatContainerALL'))
-  }
-
-  handleResponse = async () => {
+handleResponse = async () => {
   const check_token = localStorage.getItem('jwt')
   if (check_token) {
     const token = JSON.parse(check_token)
@@ -56,16 +52,20 @@ class ChatContainerALL extends Component {
        variables: {
         token: token.data.register || token.data.login
         }
-      });
-      if(response.data.validToken === "True"){
-          this.handleTriger();
-      }
-      else {
-        this.setState({ redirect: false }, () => this.props.history.push('/HomePage'))
-      }
+			})
+			.catch((error) => {
+				this.props.history.push('/')
+			});
+			if (response) {
+      	if(response.data.validToken === "True"){
+      	}
+      	else {
+        	this.props.history.push('/')
+				}
+			}
   }
   else {
-    this.setState({ redirect: false }, () => this.props.history.push('/HomePage'))
+    this.props.history.push('/')
   }
 }
 
@@ -101,4 +101,4 @@ class ChatContainerALL extends Component {
 		}
 	}
 
-export default graphql(validToken) (ChatContainerALL);
+export default graphql(validToken) (withRouter(ChatContainerALL));

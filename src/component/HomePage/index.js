@@ -49,12 +49,17 @@ class HomePage extends Component {
        variables: {
         token: token.data.register || token.data.login || token.data.logout
         }
-      });
-      if(response.data.validToken === "True"){
+      })
+      .catch((error) => {
+          this.setState({ redirect: false }, () => this.props.history.push('/'))
+        });
+      if (response) {
+        if(response.data.validToken === "True"){
           this.handleTriger();
-      }
-      else {
-        this.setState({ redirect: false }, () => this.props.history.push('/'))
+        }
+        else {
+          this.setState({ redirect: false }, () => this.props.history.push('/'))
+        }
       }
   }
   else {
