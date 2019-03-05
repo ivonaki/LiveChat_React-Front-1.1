@@ -34,7 +34,7 @@ class SendingMessages extends Component {
 	handleKeyPress = async (e) => {
 		if(e.key === "Enter") {
 			this.sendingMessage()
-	}
+		}
 	}
 
 

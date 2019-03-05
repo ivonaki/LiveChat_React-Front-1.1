@@ -26,7 +26,7 @@ class Login extends Component {
       passwordValid = "Password needs to have more than 5 characters";
     }
 
-  if (usernameValid || passwordValid) {   //setstejtanje upozorenja
+  if (usernameValid || passwordValid) {
     this.setState({ usernameValid, passwordValid});
     return false;
   }
@@ -52,11 +52,11 @@ class Login extends Component {
           password : this.state.password
         },
       });
-      if (JSON.stringify(token) === '{"data":{"login":"There is no user with that username"}}') {
+      if (token.data.login === "There is no user with that username") {
         var usernameValid = "There is no user with that username";
         this.setState({ usernameValid })
       }
-      else if (JSON.stringify(token) === '{"data":{"login":"Incorrect password"}}') {
+      else if (token.data.login === "Incorrect password") {
         var passwordValid = 'Incorrect password';
         this.setState({ passwordValid })
       }

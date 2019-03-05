@@ -47,13 +47,20 @@ class HomePage extends Component {
     const token = JSON.parse(check_token)
     const response = await this.props.mutate({
        variables: {
-        token: token.data.register || token.data.login
+        token: token.data.register || token.data.login || token.data.logout
         }
       });
-      if(JSON.stringify(response) === '{"data":{"validToken":"True"}}'){
+      if(response.data.validToken === "True"){
           this.handleTriger();
       }
-  }}
+      else {
+        this.setState({ redirect: false }, () => this.props.history.push('/'))
+      }
+  }
+  else {
+    this.setState({ redirect: false }, () => this.props.history.push('/'))
+  }
+}
 
   componentWillMount(){     //ili DidMount?
     this.handleResponse();

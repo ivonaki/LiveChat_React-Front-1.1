@@ -4,22 +4,31 @@ import ChatContainer from './ChatContainer';
 import SendingMessages from './SendingMessages';
 import './ChatContainerALL.css';
 import MessageList from './ChatBox';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
+
+const validToken = gql`
+  mutation validToken($token: String!) {
+    validToken(token : $token)
+  }
+`;
 
 class ChatContainerALL extends Component {
 
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	      toggle: true,
-	      chatroomId: "1"
-	    }
+				toggle: true,
+				redirect: true,
+				chatroomId: "1"
+			}
 	  }
 
-	handleChatRoom = async (value) => {
-		this.setState({
+	handleChatRoom = (value) => {
+		  this.setState({
 			chatroomId: value
 		})
-		console.log(this.state.chatroomId)
+		console.log(value)		
 	}  
 
 	handleToggle = () => {
@@ -35,8 +44,36 @@ class ChatContainerALL extends Component {
 		}
 	}
 
+  handleTriger = () => {
+    this.setState({ redirect: true }, () => this.props.history.push('/ChatContainerALL'))
+  }
 
-	render() {	
+  handleResponse = async () => {
+  const check_token = localStorage.getItem('jwt')
+  if (check_token) {
+    const token = JSON.parse(check_token)
+    const response = await this.props.mutate({
+       variables: {
+        token: token.data.register || token.data.login
+        }
+      });
+      if(response.data.validToken === "True"){
+          this.handleTriger();
+      }
+      else {
+        this.setState({ redirect: false }, () => this.props.history.push('/HomePage'))
+      }
+  }
+  else {
+    this.setState({ redirect: false }, () => this.props.history.push('/HomePage'))
+  }
+}
+
+  componentWillMount(){     //ili DidMount?
+    this.handleResponse();
+  }
+
+	render() {
 		return(
 			<div className="wrapper">
 					<div className='rows'>
@@ -55,7 +92,7 @@ class ChatContainerALL extends Component {
 	  						<MessageList chatroomId = {this.state.chatroomId}/>
 						</div>
 						<div className='container2'>
-							<SendingMessages/>
+							<SendingMessages chatroomId = {this.state.chatroomId}/>
 						</div>
 					</div>
 
@@ -64,4 +101,4 @@ class ChatContainerALL extends Component {
 		}
 	}
 
-export default ChatContainerALL;   
+export default graphql(validToken) (ChatContainerALL);
