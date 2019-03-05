@@ -76,7 +76,7 @@ handleChange = (e) => {
         },
       });
 
-      if (edit_profile.data.updateUser === "Username already taken") {
+     if (edit_profile.data.updateUser === "Username already taken") {
         var newUsernameValid = 'Username already taken';
         this.setState({ newUsernameValid })
       }

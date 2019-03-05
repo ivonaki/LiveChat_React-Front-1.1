@@ -41,7 +41,7 @@ class Sidebar extends Component {
   	this.setState({ editProfile: true }, () => this.props.history.push('/EditProfile'))
   }
 
-  handleLogout = async () => {
+ handleLogout = async () => {
 		var logout_token = await this.props.mutate( {
 			variables: {
 				logged_token: this.state.logged_token.data.register || this.state.logged_token.data.login
@@ -62,13 +62,13 @@ render() {
 				  			<img className='imgbuttoni'  alt='messagesicon' src={messagesicon}/>
 				  			PRIVATE MESSAGES
 				  	</Button>
-					<Button className="Buttoni" color="warning"><img className='imgbuttoni' alt='travel' src={travelicon}/>
+					<Button className="Buttoni" color="warning"><img className='imgbuttoni' alt='travel' src={travelicon}  onClick={(value) => this.props.ChangingRoom("2")}/>
 						TRAVEL
 					</Button>
-				    <Button className="Buttoni" color="info"><img className='imgbuttoni' alt='sportsicon' src={sportsicon}/>
+				    <Button className="Buttoni" color="info"><img className='imgbuttoni' alt='sportsicon' src={sportsicon} onClick={(value) => this.props.ChangingRoom("3")}/>
 				    	SPORT
 				    </Button>
-					<Button className="Buttoni" color="danger"><img className='imgbuttoni' alt='techicon' src={techicon}/>
+					<Button className="Buttoni" color="danger"><img className='imgbuttoni' alt='techicon' src={techicon}  onClick={(value) => this.props.ChangingRoom("4")}/>
 						TECH
 					</Button>
 					<ButtonDropdown direction="right" isOpen={this.state.dropdownOpen} toggle={this.toggle} className="Buttoni" color="primary">
@@ -87,5 +87,5 @@ render() {
 	);
 }
 }
-  
-export default graphql(logoutMutation)(withRouter(Sidebar))
+
+export default graphql(logoutMutation)(withRouter(Sidebar));

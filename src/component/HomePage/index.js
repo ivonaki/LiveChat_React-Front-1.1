@@ -8,7 +8,6 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
-
 const validToken = gql`
   mutation validToken($token: String!) {
     validToken(token : $token)
@@ -43,23 +42,22 @@ class HomePage extends Component {
   }
 
   handleResponse = async () => {
-    const check_token = localStorage.getItem('jwt')
-    if (check_token) {
-      const token = JSON.parse(check_token)
-      const response = await this.props.mutate({
-        variables: {
-          token: token.data.register || token.data.login
-          }
-        });
-        if(JSON.stringify(response) === '{"data":{"validToken":"True"}}'){
-            this.handleTriger();
+  const check_token = localStorage.getItem('jwt')
+  if (check_token) {
+    const token = JSON.parse(check_token)
+    const response = await this.props.mutate({
+       variables: {
+        token: token.data.register || token.data.login
         }
+      });
+      if(JSON.stringify(response) === '{"data":{"validToken":"True"}}'){
+          this.handleTriger();
+      }
   }}
 
   componentWillMount(){     //ili DidMount?
     this.handleResponse();
   }
-
 
   render() {
     const particleOptions= {

@@ -27,7 +27,6 @@ const messagesQuery = gql`
 }
 `;
 
-//({new Date(message.createdAt).toLocaleString()})
 
 const MessageItem = ({ message }) => (
   <li className='listItems'>

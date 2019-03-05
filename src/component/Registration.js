@@ -74,7 +74,7 @@ class Registration extends Component {
         localStorage.setItem('jwt', JSON.stringify(token));
         this.props.trigerChat()
       }
-    }};
+    }}
 
   render() {
     return (     
